@@ -2,9 +2,10 @@ var app = new Vue({
 	el: "#app",
 	data: {
 		errorMessage: "",
+		successMessage: "",
 		users: [],
 		newUser: { username: "", email: "" },
-		clickedUser: { id: "", username: "", email: "" }
+		clickedUser: { id: "" }
 	},
 
 	created() {
@@ -15,11 +16,13 @@ var app = new Vue({
 		getAllUser() {
 			let vm = this;
 			axios.get('http://localhost/vuejs-estudos/vue-php-crud/php/api.php?action=read')
-			 .then((res) => {				 	
+			 .then(res => {				 	
 			 	if(res.data.error)
 			 		vm.errorMessage = res.data.message;
-			 	else
-			 		vm.users = res.data.users;
+			 	else {
+					vm.successMessage = res.data.message;
+					vm.users = res.data.users;
+				}
 			 })
 			 .catch(error => {
 			 	console.log(error);
@@ -30,11 +33,13 @@ var app = new Vue({
 			let formData = this.appendForm(this.newUser);
 			let vm = this;
 			axios.post('http://localhost/vuejs-estudos/vue-php-crud/php/api.php?action=create', formData)
-			.then((res) => {
+			.then(res => {
 				if(res.data.error)
 					vm.errorMessage = res.data.message;
-				else
+				else {
+					vm.successMessage = res.data.message;
 					vm.getAllUser();
+				}
 			})
 			.catch(error => {
 				console.log(error);
@@ -45,6 +50,23 @@ var app = new Vue({
 			let vm = this;
 			let formData = this.appendForm(this.clickedUser);
 			axios.post('http://localhost/vuejs-estudos/vue-php-crud/php/api.php?action=update', formData)
+			.then(res => {
+				if(res.data.error)
+					vm.errorMessage = res.data.message;
+				else {
+					vm.successMessage = res.data.message;
+					vm.getAllUser();
+				}
+			})
+			.catch(e => {
+				console.log(e)
+			});
+		},
+
+		deleteUser() {
+			let vm = this;
+			let formData = this.appendForm(this.clickedUser);
+			axios.post('http://localhost/vuejs-estudos/vue-php-crud/php/api.php?action=delete', formData)
 			.then(res => {
 				if(res.data.error)
 					vm.errorMessage = res.data.message;
