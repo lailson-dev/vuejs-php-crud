@@ -29,8 +29,8 @@ if(isset($_GET['action'])) {
 			break;
 
 		case 'create':
-			$username = filter_input(INPUT_POST, 'input-username', FILTER_SANITIZE_SPECIAL_CHARS);
-			$email	  = filter_var($_POST['input-email'], FILTER_VALIDATE_EMAIL);
+			$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS);
+			$email	  = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
 			$create = $conn->prepare('INSERT INTO `users` (`username`, `email`) VALUES (:username, :email)');
 			$create->bindParam(':username', $username, PDO::PARAM_STR);
 			$create->bindParam(':email', $email, PDO::PARAM_STR);
@@ -44,9 +44,9 @@ if(isset($_GET['action'])) {
 			break;
 
 			case 'update':
-				$idUser   = filter_input(INPUT_POST, 'input-id', FILTER_SANITIZE_NUMBER_INT);
-				$username = filter_input(INPUT_POST, 'input-username', FILTER_SANITIZE_SPECIAL_CHARS);
-				$email	  = filter_var($_POST['input-email'], FILTER_VALIDATE_EMAIL);
+				$idUser   = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+				$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS);
+				$email	  = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
 				$update = $conn->prepare('UPDATE `users` SET `username` = :username, `email` = :email WHERE id = :id');
 				$update->bindParam(':id', $idUser, PDO::PARAM_INT);
 				$update->bindParam(':username', $username, PDO::PARAM_STR);
@@ -61,7 +61,7 @@ if(isset($_GET['action'])) {
 			break;
 
 			case 'delete':
-				$idUser   = filter_input(INPUT_POST, 'input-id', FILTER_SANITIZE_NUMBER_INT);
+				$idUser   = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
 				$delete = $conn->prepare('DELETE FROM `users` WHERE id = :id');
 				$delete->bindParam(':id', $idUser, PDO::PARAM_INT);
 
@@ -75,6 +75,16 @@ if(isset($_GET['action'])) {
 	}
 }
 
-header("Content-type: application/json");
-header("Access-Control-Allow-Origin: *");
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
+    header('Access-Control-Allow-Headers: token, Content-Type');
+    header('Access-Control-Max-Age: 1728000');
+    header('Content-Length: 0');
+    header('Content-Type: text/plain');
+    die();
+}
+
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json');
 echo json_encode($res);
