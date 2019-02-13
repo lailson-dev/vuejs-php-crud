@@ -75,6 +75,6 @@ if(isset($_GET['action'])) {
 	}
 }
 
-
 header("Content-type: application/json");
+header("Access-Control-Allow-Origin: *");
 echo json_encode($res);
