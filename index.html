@@ -58,17 +58,17 @@
 			        <form>
 			        	<fieldset class="form-group">
 			        		<label for="input-name">Nome</label>
-			        		<input type="text" class="form-control" id="input-name" name="input-name">
+			        		<input type="text" class="form-control" id="input-name" name="input-name" v-model="newUser.username">
 			        	</fieldset>
 			        	<fieldset class="form-group">
 			        		<label for="input-email">Email</label>
-			        		<input type="text" class="form-control" id="input-email" name="input-email">
+			        		<input type="text" class="form-control" id="input-email" name="input-email" v-model="newUser.email">
 			        	</fieldset>
 			        </form>
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-			        <button type="submit" class="btn btn-outline-primary">Cadastrar</button>
+			        <button type="submit" class="btn btn-outline-primary" @click.prevent.stop="saveUser();">Cadastrar</button>
 			      </div>
 			    </div>
 			  </div>
