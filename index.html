@@ -10,105 +10,114 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 	</head>
 	<body>
-		<section class="container">
-			<div class="row mt-5">
-				<div class="col-sm-12 my-5 d-flex justify-content-between align-items-center">
-					<h1 class="display-4">Lista de usuários</h1>
-					<button class="btn btn-outline-primary" data-toggle="modal" data-target="#modalNewUser">Novo Usuário</button>
+		
+		<div id="app">
+			<section class="container">
+				<div class="row mt-5">
+					<div class="col-sm-12 my-5 d-flex justify-content-between align-items-center">
+						<h1 class="display-4">Lista de usuários</h1>
+						<button class="btn btn-outline-primary" data-toggle="modal" data-target="#modalNewUser">Novo Usuário</button>
+					</div>
+					<div class="col-sm-12">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Usuário</th>
+									<th>Email</th>
+									<th>Ação</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="user in users">
+									<td>{{ user.id }}</td>
+									<td>{{ user.username }}</td>
+									<td>{{ user.email }}</td>
+									<td>
+										<button type="submit" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#modalEditUser">Editar</button>
+										<button type="submit" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#modalDeleteUser">Deletar</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
-				<div class="col-sm-12">
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th>ID</th>
-								<th>Usuário</th>
-								<th>Email</th>
-								<th>Ação</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>1</td>
-								<td>Lailson</td>
-								<td>Lailsonconceicaodv@gmail.com</td>
-								<td>
-									<button type="submit" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#modalEditUser">Editar</button>
-									<button type="submit" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#modalDeleteUser">Deletar</button>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
+			</section>
+
+			<!-- Modal Add New User -->
+			<div class="modal fade" id="modalNewUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="exampleModalLabel">Cadastrar novo usuário</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+			        <form>
+			        	<fieldset class="form-group">
+			        		<label for="input-name">Nome</label>
+			        		<input type="text" class="form-control" id="input-name" name="input-name">
+			        	</fieldset>
+			        	<fieldset class="form-group">
+			        		<label for="input-email">Email</label>
+			        		<input type="text" class="form-control" id="input-email" name="input-email">
+			        	</fieldset>
+			        </form>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+			        <button type="submit" class="btn btn-outline-primary">Cadastrar</button>
+			      </div>
+			    </div>
+			  </div>
 			</div>
-		</section>
+			<!-- END Modal Add New User -->
 
-		<!-- Modal Add New User -->
-		<div class="modal fade" id="modalNewUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		  <div class="modal-dialog" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h5 class="modal-title" id="exampleModalLabel">Cadastrar novo usuário</h5>
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">&times;</span>
-		        </button>
-		      </div>
-		      <div class="modal-body">
-		        <form>
-		        	<fieldset class="form-group">
-		        		<label for="input-name">Nome</label>
-		        		<input type="text" class="form-control" id="input-name" name="input-name">
-		        	</fieldset>
-		        	<fieldset class="form-group">
-		        		<label for="input-email">Email</label>
-		        		<input type="text" class="form-control" id="input-email" name="input-email">
-		        	</fieldset>
-		        </form>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-		        <button type="submit" class="btn btn-outline-primary">Cadastrar</button>
-		      </div>
-		    </div>
-		  </div>
+			<!-- Modal Edit User -->
+			<div class="modal fade" id="modalEditUser" tabindex="-1" role="dialog" aria-labelledby="modalEditUserLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="modalEditUserLabel">Editar usuário</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+			        <form>
+			        	<fieldset class="form-group">
+			        		<label for="input-name">Nome</label>
+			        		<input type="text" class="form-control" id="input-name" name="input-name">
+			        	</fieldset>
+			        	<fieldset class="form-group">
+			        		<label for="input-email">Email</label>
+			        		<input type="text" class="form-control" id="input-email" name="input-email">
+			        	</fieldset>
+			        </form>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+			        <button type="submit" class="btn btn-outline-primary">Salvar</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			<!-- END Modal Edit User -->
 		</div>
-		<!-- END Modal Add New User -->
 
-		<!-- Modal Edit User -->
-		<div class="modal fade" id="modalEditUser" tabindex="-1" role="dialog" aria-labelledby="modalEditUserLabel" aria-hidden="true">
-		  <div class="modal-dialog" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h5 class="modal-title" id="modalEditUserLabel">Editar usuário</h5>
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">&times;</span>
-		        </button>
-		      </div>
-		      <div class="modal-body">
-		        <form>
-		        	<fieldset class="form-group">
-		        		<label for="input-name">Nome</label>
-		        		<input type="text" class="form-control" id="input-name" name="input-name">
-		        	</fieldset>
-		        	<fieldset class="form-group">
-		        		<label for="input-email">Email</label>
-		        		<input type="text" class="form-control" id="input-email" name="input-email">
-		        	</fieldset>
-		        </form>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-		        <button type="submit" class="btn btn-outline-primary">Salvar</button>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-		<!-- END Modal Edit User -->
-
+		<!-- VueJS and Axios-->
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<script src="https://unpkg.com/vue"></script>
+		<script src="js/app.js"></script>
 		<!-- Optional JavaScript -->
 		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
+
 
 		<script type="text/javascript">
 			$('#myModal').on('shown.bs.modal', function () {
