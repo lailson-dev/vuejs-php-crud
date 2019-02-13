@@ -1,9 +1,10 @@
 var app = new Vue({
 	el: "#app",
 	data: {
-		erroMessage: "",
+		errorMessage: "",
 		users: [],
-		newUser: { username: "", email: "" }
+		newUser: { username: "", email: "" },
+		clickedUser: { id: "", username: "", email: "" }
 	},
 
 	created() {
@@ -38,6 +39,27 @@ var app = new Vue({
 			.catch(error => {
 				console.log(error);
 			});
+		},
+
+		updateUser() {
+			let vm = this;
+			let formData = this.appendForm(this.clickedUser);
+			axios.post('http://localhost/vuejs-estudos/vue-php-crud/php/api.php?action=update', formData)
+			.then(res => {
+				if(res.data.error)
+					vm.errorMessage = res.data.message;
+				else {
+					vm.successMessage = res.data.message;
+					vm.getAllUser();
+				}
+			})
+			.catch(e => {
+				console.log(e)
+			});
+		},
+
+		selectUser(user) {
+			this.clickedUser = user;
 		},
 
 		appendForm(data) {
